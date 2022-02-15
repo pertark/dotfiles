@@ -1,0 +1,5 @@
+#!/bin/bash
+
+filename=$(basename -- "$1" .osz)
+
+unzip "$@" -d "$HOME/.local/share/osu-wine/OSU/Songs/$filename/"

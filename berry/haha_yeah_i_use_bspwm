@@ -1,0 +1,6 @@
+#!/bin/bash
+
+berryc edge_gap 10 10 10 10
+berryc top_gap 32
+
+

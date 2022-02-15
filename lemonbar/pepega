@@ -1,0 +1,70 @@
+#!/usr/bin/bash
+
+#FONTS="-f -uw-ttyp0-medium-r-normal-*-14-*-*-*-*-*-*-* -f -*-siji-*"
+FONTS="-f '-monotype-notosansmono nerd font-thin-r-normal--0-0-0-0-p-0-ascii-0'"
+WIDTH=1910 # bar width
+HEIGHT=25 # bar height
+XOFF=0 # x offset 
+YOFF=0 # y offset
+BRDR=5 # border width
+BRDRC=${BG} # border color
+#BRDRC=#00000000 #back background transparent
+BBG=${BG} # bar background color
+#BBG=#00000000 #back background transparent
+BFG=${FG}
+
+# Status constants
+# Change these to modify bar behavior
+DESKTOP_COUNT=5 
+BATTERY_FULL=98
+BATTERY_MID=50
+BATTERY_LOW=20
+
+# Sleep constants
+WORKSPACE_SLEEP=0.5
+BATTERY_SLEEP=10
+WIRELESS_SLEEP=10
+VOLUME_SLEEP=1
+BACKLIGHT_SLEEP=1
+DATE_SLEEP=5
+MUSIC_SLEEP=5
+
+# Formatting Strings
+# I would reccomend not touching these :D
+SEP=" "
+SEP2="    "
+SEPB="__"
+SPC="%{B$BG}%{F$BG}$SEPB%{B-}%{F-}"
+
+# Glyphs used for both bars
+GLYCUR=$(echo -e "\ue000")
+GLYEM=$(echo -e "\ue0de")
+GLYDATE=$(echo -e "\ue015")
+GLYVOL=$(echo -e "\ue050")
+GLYVOLoff=$(echo -e "\ue052")
+GLYBATLOW=$(echo -e "\ue035")
+GLYBAT=$(echo -e "\ue037")
+GLYBATMAX=$(echo -e "\ue09e")
+GLYWLANHIGH=$(echo -e "\ue048")
+GLYWLANLOW=$(echo -e "\ue047")
+GLYMUSIC=$(echo -e "\ue0fe")
+
+PANIC="%{F$MAG}%{B$BBLK}${SEP}"
+ALERT="%{F$RED}%{B$BBLK}${SEP}"
+WARN="%{F$YLW}%{B$BBLK}${SEP}"
+GOOD="%{F$GRN}%{B$BBLK}${SEP}"
+PLAIN="%{F$WHT}%{B$BBLK}${SEP}"
+GEN="%{F$FG}%{B$BBLK}${SEP}"
+EMPTY="%{F$FG}%{B$BBLK}${SEP}"
+BLACK="%{F$FG}%{B$BLK}${SEP}"
+FULL="%{F$BLK}%{B$ACC}${SEP}"
+CLR="${SEP}%{B-}${F-}"
+
+PANEL_FIFO=/tmp/panel-fifo
+OPTIONS="${FONTS} -g ${WIDTH}x${HEIGHT}+${XOFF}+${YOFF} -B '${BBG}' -F '${BFG}' -r 5 -R ${BRDRC} -u 2" 
+
+echo "lemonbar ${OPTIONS} -p" | sh
+lemonbar $OPTIONS -p
+
+
+# | sh > /dev/null

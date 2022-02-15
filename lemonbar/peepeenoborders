@@ -1,0 +1,227 @@
+#!/bin/bash
+# vim: ft=bash
+
+. "${HOME}/.cache/wal/colors.sh"
+echo "$color0-$color1-$color2-$color3-$color4-$color5-$color6-$color7-$color8-$color9-$color10-$color15-$foreground-$background"
+BG="$background"
+FG="$foreground"
+MAG="$color5"
+RED="$color1"
+YLW="$color3"
+GRN="$color2"
+WHT="$color15"
+BLK="$color8"
+BBLK="$color0"
+
+GLYCUR=$(echo -e "\ue000")
+GLYDATE=$(echo -e "\ue015")
+ICONVOLMUTE="\uf6a9"
+
+# FONTS=(-f '-misc-fira code-medium-r-normal--12-0-0-0-m-0-ascii-0' -f 'Font Awesome 5 Free' -f 'Font Awesome 5 Brands' -f 'Font Awesome 5 Free Solid')
+FONTS=(-o 3 -f "Fira Code:size=16" -o -3 -f 'Font Awesome 5 Free' -o -3 -f 'Font Awesome 5 Brands' -o -3 -f 'Font Awesome 5 Free Solid') 
+
+#WIDTH=1910 # bar width
+HEIGHT=30 # bar height
+XOFF=0 # x offset 
+YOFF=0 # y offset
+BRDR=5 # border width
+BRDRC=${BG} # border color
+#BRDRC=#00000000 #back background transparent
+BBG=${BG} # bar background color
+#BBG=#00000000 #back background transparent
+BFG=${FG}
+
+# Status constants
+# Change these to modify bar behavior
+DESKTOP_COUNT=9 
+BATTERY_FULL=98
+BATTERY_MID=50
+BATTERY_LOW=20
+
+# Sleep constants
+WORKSPACE_SLEEP=0.2
+BATTERY_SLEEP=10
+WIRELESS_SLEEP=10
+VOLUME_SLEEP=1
+BACKLIGHT_SLEEP=1
+DATE_SLEEP=5
+MUSIC_SLEEP=5
+CURRENT_WINDOW_SLEEP=1
+
+# Formatting Strings
+# I would reccomend not touching these :D
+SEP=" "
+SEP2="    "
+SEPB="__"
+SPC="%{B$BG}%{F$BG}$SEPB%{B-}%{F-}"
+
+PANIC="%{F$MAG}%{B$BBLK}${SEP}"
+ALERT="%{F$RED}%{B$BBLK}${SEP}"
+WARN="%{F$YLW}%{B$BBLK}${SEP}"
+GOOD="%{F$GRN}%{B$BBLK}${SEP}"
+PLAIN="%{F$WHT}%{B$BBLK}${SEP}"
+GEN="%{F$FG}%{B$BBLK}${SEP}"
+EMPTY="%{F$FG}%{B$BBLK}${SEP}"
+BLACK="%{F$FG}%{B$BLK}${SEP}"
+FULL="%{F$BLK}%{B$ACC}${SEP}"
+CLR="${SEP}%{B-}${F-}"
+
+# custom box stuff
+BOX="%{U$BBG+u+o}"
+BOXCLR="%{U-}%{-u-o}"
+
+PANEL_FIFO=/tmp/panel-fifo
+OPTIONS=(${FONTS[@]} -g x${HEIGHT}+${XOFF}+${YOFF} -B "${BBG}" -F "${BFG}" -u 2)
+echo $OPTIONS
+[ -e "${PANEL_FIFO}" ] && rm "${PANEL_FIFO}"
+mkfifo "${PANEL_FIFO}"
+
+workspaces() {
+    while true; do
+        local cur=$(xprop -root _NET_CURRENT_DESKTOP | awk '{print $3}')
+        local total=${DESKTOP_COUNT}
+        local seq=""
+
+        for ((i=0;i<cur;i++)); do 
+            seq+="%{A:berryc switch_workspace ${i}:}${EMPTY}$((i+1))${CLR}%{A}"
+        done
+	
+	seq+="%{U$YLW}%{+o}${EMPTY}$((cur+1))${SEP}%{-o}"
+
+        min=$cur+1
+        for ((i=min;i<total;i++)); do
+            seq+="%{A:berryc switch_workspace ${i}:}${EMPTY}$((i+1))${CLR}%{A}"
+        done
+
+        echo "WORKSPACES ${seq}${CLR}"
+        #echo "WORKSPACES ${seq}"
+
+        sleep ${WORKSPACE_SLEEP}
+    done
+}
+
+workspaces > "${PANEL_FIFO}" &
+
+wireless() 
+{
+    local wifi_high=$(echo -e "\uf1eb")
+    local wifi_low=$(echo -e "\uf6ac")
+    while true; do
+        local wifi=$(iwgetid -r)
+
+        if [[ -z $wifi ]]; then
+            local wifi="DISCONNECTED"
+            echo "WIRELESS %{A:konsole -e nmtui:}${ALERT}${wifi_low}${wifi}%{A}"
+        else
+            echo "WIRELESS %{A:konsole -e nmtui:}${GOOD}${wifi_high}${CLR}${wifi}%{A}"
+        fi
+
+        sleep ${WIRELESS_SLEEP}
+    done
+}
+
+wireless > "${PANEL_FIFO}" &
+
+clock() 
+{
+    local clockicon=$(echo -e "\uf017")
+    while true; do
+        local clock="$(date +"%a, %b %d ${clockicon} %I:%M %p")"
+        # echo "CLOCK ${CLEAR}${GLYDATE}${SEP}${BLACK}${clock}${CLR}"
+
+        echo "CLOCK ${GLYDATE}${clock}"
+        sleep ${DATE_SLEEP}
+    done
+}
+
+clock > "${PANEL_FIFO}" &
+
+volume()
+{
+    while true; do
+        local vol="$(amixer sget Master | grep 'Mono: Playback' | awk -F'[][]' '{ print $2 }' | cut -d '%' -f1)"
+        local mut="$(amixer get Master| awk 'NR==5 {print $6}')"
+
+        if [[ ${mut} = "[off]" ]]; then
+            echo "VOLUME ${ALERT}${ICONVOLMUTE}${SEP}${BLACK}${vol}${CLR}"
+        elif [[ ${vol} = 0 ]]; then
+            echo "VOLUME ${WARN}${ICONVOLMUTE}${SEP}${BLACK}${vol}${CLR}"
+        else
+            echo "VOLUME ${GOOD}${ICONVOLMUTE}${SEP}${BLACK}${vol}${CLR}"
+        fi
+
+        sleep ${VOLUME_SLEEP} 
+    done
+}
+
+# volume > "${PANEL_FIFO}" &
+GLYBATMAX=$(echo -e "\uf240")
+GLYBAT=$(echo -e "\uf240")
+GLYBATLOW=$(echo -e "\uf243")
+battery() 
+{
+    while true; do
+        local cap="$(cat /sys/class/power_supply/BAT1/capacity)"
+        local stat="$(cat /sys/class/power_supply/BAT1/status)"
+
+        if [[ ${cap} -ge ${BATTERY_FULL} || ${stat} = "Charging" ]]; then
+            echo "BATTERY ${GOOD}${GLYBATMAX}${SEP}${cap}%%${CLR}"
+        elif [[ ${cap} -ge ${BATTERY_MID} ]]; then
+            echo "BATTERY ${WARN}${GLYBAT}${SEP}${cap}%%${CLR}"
+        else
+            echo "BATTERY ${ALERT}${GLYBATLOW}${SEP}${cap}%%${CLR}"
+        fi
+
+        sleep ${BATTERY_SLEEP}
+    done
+}
+
+battery > "${PANEL_FIFO}" &
+
+curr_window()
+{
+    while true; do
+        local window="$(xdotool getactivewindow getwindowname | rev | cut -d" " -f1 | rev)"
+        echo "WINDOW ${window}"
+
+        sleep ${CURRENT_WINDOW_SLEEP}
+    done
+}
+
+curr_window > "${PANEL_FIFO}" &
+
+
+
+
+SLEEPINGTIME2=$(echo -e "\uf236")
+while read -r line; do
+    case $line in
+        CLOCK*)
+            fn_time="${line#CLOCK }"
+            ;;
+        VOLUME*)
+            fn_vol="${line#VOLUME }"
+            ;;
+        BATTERY*)
+            fn_bat="${line#BATTERY }"
+            ;;
+        BACKLIGHT*)
+            fn_back="${line#BACKLIGHT }"
+            ;;
+        WORKSPACES*)
+            fn_work="${line#WORKSPACES }"
+            ;;
+        WIRELESS*)
+            fn_wire="${line#WIRELESS }"
+            ;;
+        MUSIC*)
+            fn_music="${line#MUSIC }"
+            ;;
+        WINDOW*)
+            fn_window="${line#WINDOW }"
+            ;;
+    esac
+    printf "%s\n" "%{S+}%{l}${fn_work}| ${fn_window}%{c}${fn_time}%{r}${fn_back}${SEP}%{A:xsecurelock:}${SLEEPINGTIME2}%{A}${SEP}${fn_vol}${SEP}${fn_wire}${SEP}${fn_bat}"
+done < "${PANEL_FIFO}" | lemonbar ${OPTIONS[@]} | sh > /dev/null # 2&> /dev/null
+
+# | sh > /dev/null

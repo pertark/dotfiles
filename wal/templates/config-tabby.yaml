@@ -1,0 +1,184 @@
+version: 3
+hotkeys:
+  toggle-window:
+    - Ctrl-Space
+  copy-current-path: []
+  ctrl-c:
+    - Ctrl-C
+  copy:
+    - Ctrl-Shift-C
+  paste:
+    - Ctrl-Shift-V
+    - Shift-Insert
+  select-all:
+    - Ctrl-Shift-A
+  clear: []
+  zoom-in:
+    - Ctrl-=
+    - Ctrl-Shift-=
+  zoom-out:
+    - Ctrl--
+    - Ctrl-Shift--
+  reset-zoom:
+    - Ctrl-0
+  home:
+    - Home
+  end:
+    - End
+  previous-word:
+    - Ctrl-Left
+  next-word:
+    - Ctrl-Right
+  delete-previous-word:
+    - Ctrl-Backspace
+  delete-next-word:
+    - Ctrl-Delete
+  search:
+    - Ctrl-Shift-F
+  pane-focus-all:
+    - Ctrl-Shift-I
+  restart-telnet-session: []
+  restart-ssh-session: []
+  launch-winscp: []
+  settings:
+    - Ctrl-,
+  serial:
+    - Alt-K
+  restart-serial-session: []
+  new-window:
+    - Ctrl-Shift-N
+  new-tab:
+    - Ctrl-Shift-T
+  profile: {{}}
+  profile-selectors: {{}}
+  toggle-fullscreen:
+    - F11
+  close-tab:
+    - Ctrl-Shift-W
+  reopen-tab:
+    - Ctrl-Shift-T
+  toggle-last-tab: []
+  rename-tab:
+    - Ctrl-Shift-R
+  next-tab:
+    - Ctrl-Shift-Right
+    - Ctrl-Tab
+  previous-tab:
+    - Ctrl-Shift-Left
+    - Ctrl-Shift-Tab
+  move-tab-left:
+    - Ctrl-Shift-PageUp
+  move-tab-right:
+    - Ctrl-Shift-PageDown
+  rearrange-panes:
+    - Ctrl-Shift
+  duplicate-tab: []
+  tab-1:
+    - Alt-1
+  tab-2:
+    - Alt-2
+  tab-3:
+    - Alt-3
+  tab-4:
+    - Alt-4
+  tab-5:
+    - Alt-5
+  tab-6:
+    - Alt-6
+  tab-7:
+    - Alt-7
+  tab-8:
+    - Alt-8
+  tab-9:
+    - Alt-9
+  tab-10:
+    - Alt-0
+  tab-11: []
+  tab-12: []
+  tab-13: []
+  tab-14: []
+  tab-15: []
+  tab-16: []
+  tab-17: []
+  tab-18: []
+  tab-19: []
+  tab-20: []
+  split-right:
+    - Ctrl-Shift-E
+  split-bottom:
+    - Ctrl-Shift-D
+  split-left: []
+  split-top: []
+  pane-nav-right:
+    - Ctrl-Alt-Right
+  pane-nav-down:
+    - Ctrl-Alt-Down
+  pane-nav-up:
+    - Ctrl-Alt-Up
+  pane-nav-left:
+    - Ctrl-Alt-Left
+  pane-nav-previous:
+    - Ctrl-Alt-[
+  pane-nav-next:
+    - Ctrl-Alt-]
+  pane-maximize:
+    - Ctrl-Alt-Enter
+  close-pane: []
+  switch-profile:
+    - Ctrl-Alt-T
+  profile-selector:
+    - Ctrl-Shift-T
+terminal:
+  searchOptions: {{}}
+  colorScheme:
+    name: Material
+    foreground: {foreground}
+    background: {background}
+    selection: null
+    cursor: {foreground}
+    cursorAccent: null
+    colors:
+      - '{color0}'
+      - '{color1}'
+      - '{color2}'
+      - '{color3}'
+      - '{color4}'
+      - '{color5}'
+      - '{color6}'
+      - '{color7}'
+      - '{color8}' # rgba({{color7.red}}, {{color7.green}}, {{color7.blue}}, 0.2)
+      - '{color9}'
+      - '{color10}'
+      - '{color11}'
+      - '{color12}'
+      - '{color13}'
+      - '{color14}'
+      - '{color15}'
+  customColorSchemes: []
+  bell: audible
+  font: Hack Nerd Font
+  profile: local:custom:colors:0e6715f1-a832-4184-8b19-4745ba297628
+  fallbackFont: Terminus
+  cursor: beam
+ssh: {{}}
+configSync:
+  parts: {{}}
+clickableLinks: {{}}
+appearance: {{}}
+hacks: {{}}
+pluginBlacklist: []
+profileDefaults: {{}}
+electronFlags:
+  - - force_discrete_gpu
+    - '0'
+profiles:
+  - type: local
+    icon: fas fa-terminal
+    options:
+      command: /usr/bin/zsh
+      args:
+        - '-l'
+      env: {{}}
+    disableDynamicTitle: true
+    name: colors
+    id: local:custom:colors:0e6715f1-a832-4184-8b19-4745ba297628
