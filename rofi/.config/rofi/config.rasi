@@ -1,0 +1,44 @@
+@theme "/usr/share/rofi/themes/solarized_alternate.rasi"
+
+configuration {
+    modi: "drun,window";
+}
+
+window {
+    width:              50%;
+}
+
+
+inputbar {
+    spacing:            8px;
+    padding:            4px;
+}
+
+listview {
+    lines:              8;
+    spacing:            3px;
+    padding:            16px 0;
+}
+
+element {
+    padding:            5px;
+}
+
+element selected {
+    background-color:   @hl;
+    text-color:         @bg;
+}
+
+button {
+    padding:            5px;
+    border:             0 0 2px 0;
+}
+
+button selected {
+    border-color:   @hl;
+}
+
+element-icon { 
+    size: 1.85ch; 
+    padding: 0 8px;
+}
