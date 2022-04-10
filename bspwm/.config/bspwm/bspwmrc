@@ -37,5 +37,6 @@ xss-lock -n /usr/lib/xsecurelock/dimmer -l -- xsecurelock &
 
 source $HOME/.config/bspwm/theme.sh
 
-picom -b
+picom -b --backend glx
 
+dunst

@@ -130,3 +130,6 @@ XF86MonBrightnessDown
 # screenshot
 super + shift + s
     maim -s -D > $HOME/temp.png && cat $HOME/temp.png | xclip -sel clip -t image/png
+
+super + @F12
+    {pkill picom, picom -b --backend glx}
