@@ -25,10 +25,17 @@ bspc rule -a Chromium desktop='^2'
 bspc rule -a mplayer2 state=floating
 bspc rule -a Kupfer.py focus=on
 bspc rule -a Screenkey manage=off
+bspc rule -a feh state=floating
 
+# default background
 feh --bg-scale $HOME/.config/wallpapers/w1.jpg
 
 source $HOME/.config/polybar/launch.sh
 
 xset s 300 15
 xss-lock -n /usr/lib/xsecurelock/dimmer -l -- xsecurelock &
+
+source $HOME/.config/bspwm/theme.sh
+
+picom -b
+
