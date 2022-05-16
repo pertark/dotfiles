@@ -21,7 +21,7 @@ terminal-border: "0"
   item_icon_space = 12
   item_spacing = 8
   item_font = "Poppins Regular 18"
-  item_color = "#191970"
+  item_color = "#ffffff"
   selected_item_pixmap_style = "select_*.png"
   scrollbar = true
   scrollbar_width = 20
