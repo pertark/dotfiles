@@ -122,10 +122,10 @@ super + {Left,Down,Up,Right}
 
 # brightness
 XF86MonBrightnessUp
-    brightnessctl set +5%
+    brightnessctl set +2%
 
 XF86MonBrightnessDown
-    brightnessctl set 5%-
+    brightnessctl set 2%-
 
 # screenshot
 super + shift + s
