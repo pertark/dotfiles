@@ -7,3 +7,4 @@ vim.opt.shiftwidth = 4
 vim.opt.number = true
 vim.opt.relativenumber = true
 
+vim.api.nvim_set_keymap('n', ';', ':', {noremap=true})

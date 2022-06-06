@@ -2,4 +2,4 @@
 
 filename=$(basename -- "$1" .osz)
 
-unzip "$@" -d "$HOME/.local/share/osu-wine/OSU/Songs/$filename/"
+unzip "$@" -d "$HOME/.local/share/osu/Songs/$filename/"
