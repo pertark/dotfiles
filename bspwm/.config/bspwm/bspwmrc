@@ -29,6 +29,7 @@ bspc rule -a feh state=floating
 
 # default background
 feh --bg-scale $HOME/.config/wallpapers/w1.jpg
+redshift -P -O 5000
 
 source $HOME/.config/polybar/launch.sh
 
@@ -37,10 +38,11 @@ xss-lock -n /usr/lib/xsecurelock/dimmer -l -- xsecurelock &
 
 source $HOME/.config/bspwm/theme.sh
 
+xinput set-prop "MSHW0092:00 045E:0933 Touchpad" "libinput Tapping Enabled" 1
+
 picom -b --backend glx
 
 dunst
 
 ibus-daemon -drxR 
 
-xinput set-prop "MSHW0092:00 045E:0933 Touchpad" "libinput Tapping Enabled" 1
