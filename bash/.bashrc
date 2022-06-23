@@ -22,5 +22,5 @@ export CHROME_EXECUTABLE=/usr/bin/google-chrome-stable
 export WINEPREFIX="$HOME/.local/share/wine_osu"
 export WINEARCH=win32
 
-alias cum='nmcli c u aquilad'
+alias cu='nmcli c u aquilad'
 alias bc='bluetoothctl'
